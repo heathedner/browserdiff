@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Detector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Firefox-specific styles */
+        @-moz-document url-prefix() {
+            body { background-color: lightblue; }
+            h1 { color: darkblue; }
+        }
+
+        /* Edge-specific styles */
+        @supports (-ms-ime-align: auto) {
+            body { background-color: lightgreen; }
+            h1 { color: darkgreen; }
+        }
+
+        /* Chrome-specific styles */
+        @supports (-webkit-touch-callout: none) {
+            body { background-color: lightyellow; }
+            h1 { color: goldenrod; }
+        }
+
+        /* Safari-specific styles */
+        @supports (overflow: -webkit-marquee) {
+            body { background-color: pink; }
+            h1 { color: crimson; }
+        }
+
+        .info {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #000;
+            display: inline-block;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Browser and Device Information</h1>
+    <div class="info" id="browserInfo">Detecting...</div>
+
+    <script>
+        function getBrowserInfo() {
+            let userAgent = navigator.userAgent;
+            let browserName = "Unknown Browser";
+            
+            if (userAgent.includes("Firefox")) {
+                browserName = "Firefox";
+            } else if (userAgent.includes("Edg")) {
+                browserName = "Microsoft Edge";
+            } else if (userAgent.includes("Chrome")) {
+                browserName = "Google Chrome";
+            } else if (userAgent.includes("Safari")) {
+                browserName = "Safari";
+            } else if (userAgent.includes("Opera") || userAgent.includes("OPR")) {
+                browserName = "Opera";
+            } else if (userAgent.includes("MSIE") || userAgent.includes("Trident")) {
+                browserName = "Internet Explorer";
+            }
+            
+            return browserName;
+        }
+
+        function getDeviceInfo() {
+            return `Screen: ${screen.width}x${screen.height}, Platform: ${navigator.platform}`;
+        }
+
+        document.getElementById("browserInfo").innerText = `Browser: ${getBrowserInfo()}\n${getDeviceInfo()}`;
+    </script>
+</body>
+</html>
