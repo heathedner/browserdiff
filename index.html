@@ -7,46 +7,77 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
             padding: 20px;
+        }
+
+        /* Default Layout */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .info {
+            padding: 10px;
+            border: 1px solid #000;
+            background-color: #fff;
         }
 
         /* Firefox-specific styles */
         @-moz-document url-prefix() {
             body { background-color: lightblue; }
-            h1 { color: darkblue; }
+            .container { flex-direction: row; justify-content: space-around; }
+            .info { border: 2px dashed darkblue; }
         }
 
         /* Edge-specific styles */
         @supports (-ms-ime-align: auto) {
             body { background-color: lightgreen; }
-            h1 { color: darkgreen; }
+            .container { flex-direction: column-reverse; }
+            .info { border: 2px dotted darkgreen; }
         }
 
         /* Chrome-specific styles */
         @supports (-webkit-touch-callout: none) {
             body { background-color: lightyellow; }
-            h1 { color: goldenrod; }
+            .container { display: grid; grid-template-columns: 1fr 1fr; }
+            .info { border: 2px solid goldenrod; }
         }
 
         /* Safari-specific styles */
         @supports (overflow: -webkit-marquee) {
             body { background-color: pink; }
-            h1 { color: crimson; }
+            .container { display: flex; flex-wrap: wrap; justify-content: center; }
+            .info { border: 2px groove crimson; }
         }
 
-        .info {
+        /* Table for extra details */
+        table {
+            width: 80%;
+            border-collapse: collapse;
             margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
             padding: 10px;
-            border: 1px solid #000;
-            display: inline-block;
-            background-color: #fff;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <h1>Browser and Device Information</h1>
-    <div class="info" id="browserInfo">Detecting...</div>
+    <h1 style="text-align: center;">Browser and Device Information</h1>
+    <div class="container">
+        <div class="info" id="browserInfo">Detecting...</div>
+        <table>
+            <tr><th>Feature</th><th>Value</th></tr>
+            <tr><td>Browser</td><td id="browserName">Detecting...</td></tr>
+            <tr><td>Screen Size</td><td id="screenSize">Detecting...</td></tr>
+            <tr><td>Platform</td><td id="platform">Detecting...</td></tr>
+        </table>
+    </div>
 
     <script>
         function getBrowserInfo() {
@@ -75,6 +106,9 @@
         }
 
         document.getElementById("browserInfo").innerText = `Browser: ${getBrowserInfo()}\n${getDeviceInfo()}`;
+        document.getElementById("browserName").innerText = getBrowserInfo();
+        document.getElementById("screenSize").innerText = `${screen.width}x${screen.height}`;
+        document.getElementById("platform").innerText = navigator.platform;
     </script>
 </body>
 </html>
